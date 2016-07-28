@@ -5,15 +5,17 @@ import JSONParser.Token;
 public class Tokenizer {
 	private String text;
 	private int pos;
+	private int line;
 	public Tokenizer( String text)
 	{
 		this.text = text;
-		pos = 0;
+		this.pos = 0;
+		this.line = 1;
 	}
 	public Token getNextToken( )
 	{
 		if(!hasNextToken())
-			return null;
+			return new Token("",-1);
 		switch(text.charAt(pos)){
 		case '0':
 		case '1':
@@ -90,6 +92,7 @@ public class Tokenizer {
 			return new Token("SPACE", 11);
 		case '\n':
 			pos++;
+			line++;
 			return new Token("NEWLINE", 11);
 		case '\t':
 			pos++;
@@ -101,6 +104,10 @@ public class Tokenizer {
 
 		}
 
+	}
+	public int getLine()
+	{
+		return this.line;
 	}
 	public int getPosition()
 	{

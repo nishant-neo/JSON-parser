@@ -20,7 +20,7 @@ public class JSONTest
 		BufferedReader br = null;
 		try {
 			
-			Path path = Paths.get( "/home/triniti/JSONParser/JSONParser/src/JSONParser/object2.txt");
+			Path path = Paths.get( "/home/triniti/JSONParser/JSONParser/src/JSONParser/object.txt");
 			//br = new BufferedReader(new FileReader("object.txt"));
 			file = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 

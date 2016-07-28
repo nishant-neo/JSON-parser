@@ -67,13 +67,15 @@ public class Parser {
 		Map<String,JSONValue> map = new HashMap<String,JSONValue>();
 		computeField(map);
 		token = tokenizer.getNextToken();
+		while( token.getType() == 11 || token.getType() == 12 || token.getType() == 13)//pass if token has space
+			token = tokenizer.getNextToken();
 	
 		if(token == null || token.getType() != 3){
-			System.out.println("Expected } at position: "+ tokenizer.getPosition() + tokenizer.lookAhead());
-			//System.exit(1);
+			System.out.println("Expected } at position: "+ tokenizer.getPosition() +" and line :"+ tokenizer.getLine() + tokenizer.lookAhead());
+			System.exit(1);
 		}	
 		//System.out.println("object parsing done");
-		System.out.println("object:" +new JSONObject(map).toString());
+		//System.out.println("object:" +new JSONObject(map).toString());
 		return new JSONObject(map);
 		//return null;
 	}
@@ -88,7 +90,7 @@ public class Parser {
 			token = tokenizer.getNextToken();
 		if( token == null || token.getType() != 1)
 		{
-			System.out.println("Expected a string for key at position:  " + tokenizer.getPosition());
+			System.out.println("Expected a string for key at position:  " + tokenizer.getPosition() +" and line : "+ tokenizer.getLine());
 			System.exit(1);
 		}
 		key = token.getLexeme();
@@ -97,7 +99,7 @@ public class Parser {
 			token = tokenizer.getNextToken();
 		if( token == null || token.getType() != 7)
 		{
-			System.out.println("Expected a : for key at position:  " + tokenizer.getPosition());
+			System.out.println("Expected a : for key at position:  " + tokenizer.getPosition() +" and line : "+ tokenizer.getLine());
 			System.exit(1);
 		}
 		
@@ -113,7 +115,7 @@ public class Parser {
 			//val.value = k.getLexeme();
 			//val.type = 1;
 			map.put(key, jsonValue);
-			
+		 	
 		} 
 		else if( token.getType() == 13)//Integer
 		{
@@ -139,13 +141,13 @@ public class Parser {
 		}
 		else
 		{
-			System.out.println("Unexpected character at position" + tokenizer.getPosition());
+			System.out.println("Unexpected character at position" + tokenizer.getPosition() +" and line : "+ tokenizer.getLine());
 			System.exit(1);
 		}
 		//System.out.println("Comma detected");
 		//System.out.println(tokenizer.lookAhead());
 		if(tokenizer.hasNextToken() && tokenizer.lookAhead() == ','){
-			System.out.println("Continued");
+			//System.out.println("Continued");
 			token = tokenizer.getNextToken();
 			computeField(map);
 		}
@@ -159,7 +161,7 @@ public class Parser {
 		token = tokenizer.getNextToken();
 	
 		if(token == null || token.getType() != 5){
-			System.out.println("Expected ]");
+			System.out.println("Expected ] at position" + tokenizer.getPosition() +" and line : "+ tokenizer.getLine());
 			System.exit(1);
 		}	
 		return array;
@@ -203,10 +205,11 @@ public class Parser {
 		}
 		else
 		{
-			System.out.println("Unknown Character at position" + tokenizer.getPosition());
+			//System.out.println("Unknown Character at position: " + tokenizer.getPosition() );
+			System.out.println("Unexpected character at position" + tokenizer.getPosition() +" and line : "+ tokenizer.getLine());
 			System.exit(1);
 		}
-		System.out.println("Comma detected");
+		//System.out.println("Comma detected");
 		if(tokenizer.hasNextToken() && tokenizer.lookAhead() == ','){
 			
 			token = tokenizer.getNextToken();

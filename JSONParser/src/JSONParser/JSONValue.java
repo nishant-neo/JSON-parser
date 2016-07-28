@@ -64,11 +64,11 @@ public class JSONValue {
 			return this.jString;
 		else if( this.type == 2)
 		{
-			;
+			return this.jArray.toString();
 		}
 		else if( this.type == 3)
 		{
-			return this.jObj.toString();
+			return "\t" + this.jObj.toString();
 		}
 		else if( this.type == 4)
 		{
